@@ -1,0 +1,55 @@
+{# Page d'accueil #}
+
+{% extends 'maitre.html' %}
+{% load static %}
+
+{% block titre %}Cinéma – Accueil{% endblock %}
+{% block titrepage %}Cinéma – Accueil{% endblock %}
+
+{% block contenu %}
+<div class="container mt-4">
+  <div class="row g-4 align-items-center mb-5">
+    <div class="col-md-6">
+      <h2>Bienvenue au Cinéma le Scénario</h2>
+      <p>Le meilleur endroit pour voir vos films préférés de la saison. Découvrez nos représentations à l'affiche, choisissez votre séance et réservez vos places en quelques clics.</p>
+      <a href="{% url 'billets' %}" class="btn btn-danger">Voir les films</a>
+    </div>
+    <div class="col-md-6 text-center">
+      <img src="{% static 'images/cinema.png' %}" class="img-fluid rounded">
+    </div>
+  </div>
+
+  <!-- a l'affiche -->
+  <h3 class="mb-4">Représentations aujourd'hui</h3>
+  {% if representations %}
+  <div class="d-flex flex-wrap gap-3">
+    {% for rep in representations %}
+    <div class="rep-card">
+      {% if rep.idFilm.img %}
+        <img src="{{ rep.idFilm.img }}" alt="{{ rep.idFilm.titre }}">
+      {% else %}
+        <div class="bg-dark d-flex align-items-center justify-content-center h-100">
+          <span style="font-size:60px">🎬</span>
+        </div>
+      {% endif %}
+      <div class="rep-overlay d-flex flex-column align-items-center justify-content-center gap-2">
+          <div class="text-white fw-bold text-center px-2">{{ rep.idFilm.titre }}</div>
+
+          {% if rep.technologie %}
+              <div class="text-white-50 small">{{ rep.technologie.nomTechno }}</div>
+          {% endif %}
+
+        <div class="d-flex gap-2">
+          <a href="{% url 'film_representations' rep.idFilm.id %}" class="btn btn-sm btn-light">Détail</a>
+          <a href="{% url 'billet_create' rep.id %}" class="btn btn-sm btn-success">Acheter</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+    <p>Aucune représentation aujourd'hui.</p>
+  {% endif %}
+
+</div>
+{% endblock %}

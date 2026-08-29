@@ -1,0 +1,24 @@
+{# Page pour supprimer un film #}
+
+{% extends 'maitre.html' %}
+
+{% block titre %}Cinéma – Supprimer Film{% endblock %}
+{% block titrepage %}Supprimer un film{% endblock %}
+
+{% block contenu %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="alert alert-danger">
+                <p>Êtes-vous sur de vouloir supprimer le film <strong>{{ film.titre }}</strong> ?</p>
+                <p>Cette action est irréversible.</p>
+            </div>
+            <form method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce film ?')">Confirmer la suppression</button>
+                <a href="{% url 'film_list' %}" class="btn btn-secondary">Annuler</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

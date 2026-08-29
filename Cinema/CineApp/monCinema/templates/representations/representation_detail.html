@@ -1,0 +1,30 @@
+{# Page pour afficher les détails d'une représentation #}
+
+{% extends 'maitre.html' %}
+
+{% block titre %}Cinéma – Détail Représentation{% endblock %}
+{% block titrepage %}Détail de la représentation{% endblock %}
+
+{% block contenu %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ representation.idFilm }}</h5>
+                    <p><strong>Salle :</strong> {{ representation.idSalle }}</p>
+                    <p><strong>Date et heure :</strong> {{ representation.dateHeure }}</p>
+                    <p><strong>Capacité salle :</strong> {{ representation.idSalle.capacite }}</p>
+                    <p><strong>Technologie :</strong> {{ representation.technologie }}</p>
+                    <div class="mt-3">
+                        <a href="{% url 'billet_create' representation.id %}" class="btn btn-success">Acheter un billet</a>
+                        <a href="{% url 'representation_edit' representation.id %}" class="btn btn-warning">Modifier</a>
+                        <a href="{% url 'representation_delete' representation.id %}" class="btn btn-danger">Supprimer</a>
+                        <a href="{% url 'representation_list' %}" class="btn btn-secondary">Retour</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

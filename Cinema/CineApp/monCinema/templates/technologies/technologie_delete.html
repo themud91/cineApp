@@ -1,0 +1,27 @@
+{# Page pour supprimer une technologie #}
+
+{% extends 'maitre.html' %}
+
+{% block titre %}Cinéma – Supprimer Technologie{% endblock %}
+{% block titrepage %}Supprimer une technologie{% endblock %}
+
+{% block contenu %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="alert alert-danger">
+                <p>Êtes-vous sûr de vouloir supprimer la technologie <strong>{{ technologie.nomTechno }}</strong> ?</p>
+                <p>Cette action est irréversible.</p>
+            </div>
+            <div class="alert alert-warning">
+                <p>Si cette technologie est utilisée par des représentations, elle ne pourra pas être supprimée. Vous devrez d'abord supprimer les représentations associées.</p>
+            </div>
+            <form method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette technologie ?')">Confirmer la suppression</button>
+                <a href="{% url 'technologie_list' %}" class="btn btn-secondary">Annuler</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

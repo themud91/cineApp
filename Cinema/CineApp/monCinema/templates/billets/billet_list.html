@@ -1,0 +1,36 @@
+{# Page pour voir les billets vendus #}
+{% extends 'maitre.html' %}
+
+{% block titre %}Cinéma – Billets vendus{% endblock %}
+{% block titrepage %}Billets vendus par représentation{% endblock %}
+
+{% block contenu %}
+<div class="container mt-4">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Film</th>
+                <th>Salle</th>
+                <th>Technologie</th>
+                <th>Date</th>
+                <th>Billets vendus</th>
+                <th>Places restantes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in data %}
+            <tr>
+                <td>{{ item.representation.id }}</td>
+                <td>{{ item.representation.idFilm }}</td>
+                <td>{{ item.representation.idSalle }}</td>
+                <td>{{ item.representation.technologie }}</td>
+                <td>{{ item.representation.dateHeure }}</td>
+                <td>{{ item.billets_vendus }}</td>
+                <td>{{ item.places_restantes }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

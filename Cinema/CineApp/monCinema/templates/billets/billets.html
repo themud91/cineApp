@@ -1,0 +1,50 @@
+{# Page pour afficher les films #}
+
+{% extends 'maitre.html' %}
+
+{% block titre %}Cinéma – Billets{% endblock %}
+{% block titrepage %}Films à l'affiche{% endblock %}
+
+{% block contenu %}
+<div class="films-list">
+    {% for film in films %}
+    <div class="film-item row g-3">
+
+        <!-- Col gauche -->
+        <div class="col-12 col-md-3">
+            <div class="film-gauche">
+                <div class="film-title">{{ film.titre }}</div>
+                <div><strong>Durée</strong> : {{ film.duree }} min</div>
+                <div><strong>Catégorie</strong> : {{ film.categorie }}</div>
+                <div class="mt-2">
+                    {% for tech in film.technologies.all %}
+                        <span class="badge bg-secondary">{{ tech.nomTechno }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Col centre -->
+        <div class="col-12 col-md-6">
+            <div class="film-desc">
+                <div class="film-desc-title">Description</div>
+                <p class="mb-0">{{ film.description }}</p>
+            </div>
+        </div>
+
+        <!-- Col droit -->
+        <div class="col-12 col-md-3">
+            <div class="film-droite">
+                {% if film.img %}
+                    <img class="film-img" src="{{ film.img }}" alt="{{ film.titre }}">
+                {% endif %}
+                <div class="mt-2">
+                    <a href="{% url 'film_representations' film.id %}" class="btn btn-success">Acheter un billet</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

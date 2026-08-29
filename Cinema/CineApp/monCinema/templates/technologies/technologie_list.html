@@ -1,0 +1,34 @@
+{# Page pour afficher la liste des technologies #}
+
+{% extends 'maitre.html' %}
+
+{% block titre %}Cinéma – Technologies{% endblock %}
+{% block titrepage %}Liste des technologies{% endblock %}
+
+{% block contenu %}
+<div class="container mt-4">
+    <a href="{% url 'technologie_create' %}" class="btn btn-danger mb-3">Ajouter une technologie</a>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        {# parcourir pour chaque tech #}
+            {% for technologie in technologies %}
+            <tr>
+                <td>{{ technologie.nomTechno }}</td>
+                <td>
+                    <a href="{% url 'technologie_edit' technologie.id %}" class="btn btn-sm btn-warning">Modifier</a>
+                    <a href="{% url 'technologie_delete' technologie.id %}" class="btn btn-sm btn-danger">Supprimer</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

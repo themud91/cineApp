@@ -1,0 +1,24 @@
+{# Page pour supprimer une salle #}
+
+{% extends 'maitre.html' %}
+
+{% block titre %}Cinéma – Supprimer Salle{% endblock %}
+{% block titrepage %}Supprimer une salle{% endblock %}
+
+{% block contenu %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="alert alert-danger">
+                <p>Etes-vous sur de vouloir supprimer la salle <strong>{{ salle.noSalle }}</strong> ?</p>
+                <p>Cette action est irréversible.</p>
+            </div>
+            <form method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette salle ?')">Confirmer la suppression</button>
+                <a href="{% url 'salle_list' %}" class="btn btn-secondary">Annuler</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

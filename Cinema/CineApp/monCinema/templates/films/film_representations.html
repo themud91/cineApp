@@ -1,0 +1,44 @@
+{# Page où les usagers peuvent choisir la représentation du film souhaité #}
+{% extends 'maitre.html' %}
+
+{% block titre %}Cinéma – Choisir une représentation{% endblock %}
+{% block titrepage %}Choisir une représentation{% endblock %}
+
+{% block contenu %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h4>{{ film.titre }}</h4>
+            <table class="table table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Heure</th>
+                        <th>Salle</th>
+                        <th>Technologie</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rep in representations %}
+                    <tr>
+                        <td>{{ rep.dateHeure|date:"d/m/Y" }}</td>
+                        <td>{{ rep.dateHeure|time:"H:i" }}</td>
+                        <td>{{ rep.idSalle }}</td>
+                        <td>
+                            <span class="badge bg-secondary">{{ rep.technologie }}</span>
+                        </td>
+                        <td>
+                            <a href="{% url 'billet_create' rep.id %}" class="btn btn-sm btn-success">Acheter</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                        <tr><td colspan="5">Aucune représentation disponible.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="{% url 'billets' %}" class="btn btn-secondary">Retour</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

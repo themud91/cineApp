@@ -1,0 +1,83 @@
+[
+  {
+    "Id": "e6b13d0d-99db-4579-8461-3a9c93c29046",
+    "IdFilm": 3,
+    "IdReprensation": 13,
+    "IdSalle": 8,
+    "IdUtilisateur": 4,
+    "Prix": 0.0,
+    "NombreBillets": 1
+  },
+  {
+    "Id": "fa63efa7-f4a0-4d21-9afe-34058d163144",
+    "IdFilm": 3,
+    "IdReprensation": 13,
+    "IdSalle": 8,
+    "IdUtilisateur": 4,
+    "Prix": 0.0,
+    "NombreBillets": 3
+  },
+  {
+    "Id": "739c53ab-b43c-4501-be4b-20ca77b1ec89",
+    "IdFilm": 1,
+    "IdReprensation": 1,
+    "IdSalle": 1,
+    "IdUtilisateur": 1,
+    "Prix": 12.50,
+    "NombreBillets": 2
+  },
+  {
+    "Id": "188d6ce1-ba18-4368-9cdd-347311f4e170",
+    "IdFilm": 3,
+    "IdReprensation": 13,
+    "IdSalle": 8,
+    "IdUtilisateur": 5,
+    "Prix": 0.0,
+    "NombreBillets": 1
+  },
+  {
+    "Id": "1b4c3954-d8d7-4058-b745-9ecf00d5c88e",
+    "IdFilm": 5,
+    "IdReprensation": 14,
+    "IdSalle": 1,
+    "IdUtilisateur": 2,
+    "Prix": 0.0,
+    "NombreBillets": 6
+  },
+  {
+    "Id": "572abd3e-1b1a-48d6-b3f8-535f159779af",
+    "IdFilm": 6,
+    "IdReprensation": 15,
+    "IdSalle": 3,
+    "IdUtilisateur": 3,
+    "Prix": 0.0,
+    "NombreBillets": 1
+  },
+  {
+    "Id": "00ac50e1-aaf7-44c4-a857-237e3f152dc2",
+    "IdFilm": 7,
+    "IdReprensation": 17,
+    "IdSalle": 8,
+    "IdUtilisateur": 3,
+    "Prix": 0.0,
+    "NombreBillets": 4
+  },
+  {
+    "Id": "f3aad8be-5d0c-4db4-93e2-bcde1697e518",
+    "IdFilm": 3,
+    "IdReprensation": 13,
+    "IdSalle": 8,
+    "IdUtilisateur": 4,
+    "Prix": 0.0,
+    "NombreBillets": 2
+  },
+  {
+    "Id": "d9ca7823-bb02-43d3-8562-5f68337c93e8",
+    "IdFilm": 5,
+    "IdReprensation": 14,
+    "IdSalle": 1,
+    "IdUtilisateur": 3,
+    "Prix": 0.0,
+    "NombreBillets": 1
+  }
+]

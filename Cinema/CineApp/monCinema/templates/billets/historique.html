@@ -1,0 +1,36 @@
+{# Page pour afficher l'historique des billets de l'utilisateur connecté #}
+{% extends 'maitre.html' %}
+
+{% block titre %}Cinéma – Mon historique{% endblock %}
+{% block titrepage %}Mon historique d'achats{% endblock %}
+
+{% block contenu %}
+<div class="container mt-4">
+    {% if billets %}
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Film</th>
+                <th>Salle</th>
+                <th>Date représentation</th>
+                <th>Quantité</th>
+                <th>Date d'achat</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for billet in billets %}
+            <tr>
+                <td>{{ billet.idRepresentation.idFilm.titre }}</td>
+                <td>{{ billet.idRepresentation.idSalle.noSalle }}</td>
+                <td>{{ billet.idRepresentation.dateHeure }}</td>
+                <td>{{ billet.quantite }}</td>
+                <td>{{ billet.dateAchat }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>Vous n'avez pas encore acheté de billets.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,162 @@
+:root {
+  --color-wh: #ffffff;
+  --color-bl: #000000;
+  --color-dark: #222;
+  --color-border-lt: #dcdcdc;
+  --color-border-med: #bbb;
+  --color-border-img: #ddd;
+  --color-bg-lt: #f9f9f9;
+  --color-bg-blu: #0909e8;
+  --color-shadow: rgba(0, 0, 0, 0.05);
+  --padding-base: 16px;
+}
+
+.cinema-header{
+  color: var(--color-bl);
+  background: var(--color-bg-lt);
+}
+
+.main-nav {
+  border-bottom: 1px solid var(--color-border-lt);
+}
+
+/* menu */
+
+.nav-link-custom {
+  color: var(--color-dark);
+  text-decoration: none;
+  font-weight: 600;
+  position: relative;
+  padding-bottom: 4px;
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.nav-link-custom:hover {
+  color: var(--color-bg-blu);
+  transform: scale(1.02);
+}
+
+/* titre */
+.page-titre {
+  color: var(--color-bl);
+  font-family: "Segoe UI", system-ui, sans-serif;
+  font-size: 48px;
+  font-weight: 500;
+}
+
+/*  paragraphe accueil */
+.col-md-6 p {
+  text-align: justify;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+/* films */
+.films-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.film-item {
+  background: var(--color-wh);
+  border: 1px solid var(--color-border-lt);
+  border-radius: 12px;
+  padding: var(--padding-base);
+  margin-bottom: 50px;
+  box-shadow: 0 4px 8px var(--color-shadow);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.film-item {
+  transition: transform 0.8s ease,  background-color 0.3s ease;
+}
+
+.film-item:hover {
+transform: scale(1.02);
+background-color: var(--color-shadow);
+}
+
+.film-gauche {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: var(--padding-base);
+  border: 2px solid var(--color-border-lt);
+  border-radius: 12px;
+  background-color: var(--color-wh);
+}
+
+.film-title {
+  font-weight: 900;
+}
+
+.film-desc {
+  border: 2px solid var(--color-border-med);
+  border-radius: 12px;
+  padding: var(--padding-base);
+  min-height: 150px;
+  background-color: var(--color-wh);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.film-desc-title {
+  font-weight: 700;
+}
+
+.film-cat {
+  padding: var(--padding-base);
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.film-img{
+
+  width: 100%;
+  height: 240px;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 10px;
+}
+
+/* hover page documentation*/
+.mb-4.p-3.border.rounded.bg-white.shadow-sm {
+  transition: transform 0.2s ease;
+}
+.mb-4.p-3.border.rounded.bg-white.shadow-sm:hover {
+  transform: scale(1.02);
+}
+
+
+/* Representations accueil */
+.rep-card {
+  position: relative;
+  width: 180px;
+  height: 260px;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.rep-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.rep-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.7);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.rep-card:hover .rep-overlay {
+  opacity: 1;
+}

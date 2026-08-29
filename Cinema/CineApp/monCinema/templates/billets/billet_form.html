@@ -1,0 +1,47 @@
+{# Page pour acheter un billet #}
+{% extends 'maitre.html' %}
+
+{% block titre %}Cinéma – Acheter un billet{% endblock %}
+{% block titrepage %}Acheter un billet{% endblock %}
+
+{% block contenu %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Détails de la représentation</h5>
+                    <p><strong>Film :</strong> {{ representation.idFilm }}</p>
+                    <p><strong>Salle :</strong> {{ representation.idSalle }}</p>
+                    <p><strong>Technologie :</strong> {{ representation.technologie }}</p>
+                    <p><strong>Date et heure :</strong> {{ representation.dateHeure }}</p>
+                    <p><strong>Capacité :</strong> {{ representation.idSalle.capacite }}</p>
+                    <p><strong>Places disponibles :</strong> {{ places_restantes }}</p>
+                </div>
+            </div>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <!-- Champ email requis pour l'envoi du courriel de confirmation via l'API C# -->
+                <p>
+                    <label for="email"><strong>Courriel de confirmation :</strong></label><br>
+                    <input type="email" id="email" name="email" class="form-control mt-1"
+                        placeholder="votre@courriel.com" value="{{ request.user.email }}" required>
+                </p>
+                <button type="submit" class="btn btn-success">Acheter</button>
+                <a href="{% url 'representation_list' %}" class="btn btn-secondary">Annuler</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+document.querySelector('form').addEventListener('submit', function(e) {
+    const quantite = document.querySelector('input[name="quantite"]');
+    if (quantite && parseInt(quantite.value) < 1) {
+        e.preventDefault();
+        alert('La quantité doit être supérieure à 0.');
+    }
+});
+</script>
+{% endblock %}

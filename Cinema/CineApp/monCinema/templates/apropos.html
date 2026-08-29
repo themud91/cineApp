@@ -1,0 +1,61 @@
+{# Page partie 6 = A propos #}
+
+{% extends 'maitre.html' %}
+{% load static %}
+
+{% block titre %}CineApp – À Propos{% endblock %}
+{% block titrepage %}CineApp – À Propos{% endblock %}
+
+{% block contenu %}
+<div class="row g-4">
+  <div class="col-12 col-md-6">
+    <div class="p-3 border rounded bg-white shadow-sm h-100">
+      <h2 class="h4">Environnement de développement</h2>
+      <ul class="mb-0">
+        <li>Python : {{ python_version }}</li>
+        <li>Django : {{ django_version }}</li>
+        <li>Visual Studio Code : {{ vscode_version }}</li>
+        <li>PyCharm : {{ pycharm_version }}</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="col-12 col-md-6">
+    <div class="p-3 border rounded bg-white shadow-sm h-100">
+      <h2 class="h4">Informations du concepteur</h2>
+      {% for concepteur in concepteurs %}
+        <p class="mb-3">
+          <strong>Nom :</strong> {{ concepteur.nom }}<br>
+          <strong>Numéro d'étudiant :</strong> {{ concepteur.numero_etudiant }}
+        </p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="col-12">
+    <div class="p-3 border rounded bg-white shadow-sm">
+      <h2 class="h4">Date</h2>
+      <p>{{ today }}</p>
+    </div>
+  </div>
+
+</div>
+
+    {# Ameliorations #}
+    <div class="col-12">
+      <div class="p-3 border rounded bg-white shadow-sm">
+        <h2 class="h4">Fonctionnalités du projet</h2>
+        <div class="row g-3 mt-1">
+          {% for a in description_projet %}
+          <div class="col-12 col-md-6">
+            <div class="p-3 border rounded bg-light h-100">
+              <h5>{{ a.titre }}</h5>
+              <p class="mb-0">{{ a.description }}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+{% endblock %}

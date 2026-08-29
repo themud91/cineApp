@@ -1,0 +1,22 @@
+{# Page d'inscription #}
+
+{% extends 'maitre.html' %}
+
+{% block titre %}Inscription{% endblock %}
+{% block titrepage %}Inscription{% endblock %}
+
+{% block contenu %}
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="post" class="bg-light p-4 rounded shadow-sm">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-success w-100">S'inscrire</button>
+            </form>
+
+            <p class="text-center mt-3">
+                Deja inscrit ? <a href="{% url 'login' %}">Se connecter</a>
+            </p>
+        </div>
+    </div>
+{% endblock %}

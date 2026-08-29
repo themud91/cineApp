@@ -1,0 +1,41 @@
+{# Page pour afficher la liste des salles #}
+
+{% extends 'maitre.html' %}
+
+{% block titre %}Cinéma – Salles{% endblock %}
+{% block titrepage %}Liste des salles{% endblock %}
+
+{% block contenu %}
+<div class="container mt-4">
+    <a href="{% url 'salle_create' %}" class="btn btn-danger mb-3">Ajouter une salle</a>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Capacité</th>
+                <th>Technologies</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for salle in salles %}
+            <tr>
+                <td>{{ salle.noSalle }}</td>
+                <td>{{ salle.capacite }}</td>
+                <td>
+                    {% for tech in salle.technologies.all %}
+                        <span class="badge bg-secondary">{{ tech.nomTechno }}</span>
+                    {% endfor %}
+                </td>
+                <td>
+                    <a href="{% url 'salle_detail' salle.id %}" class="btn btn-sm btn-info">Détail</a>
+                    <a href="{% url 'salle_edit' salle.id %}" class="btn btn-sm btn-warning">Modifier</a>
+                    <a href="{% url 'salle_delete' salle.id %}" class="btn btn-sm btn-danger">Supprimer</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+# Python / Django
+__pycache__/
+*.py[cod]
+venv/
+env/
+.venv/
+*.egg-info/
+
+# .NET / Visual Studio
+bin/
+obj/
+.vs/
+*.user
+*.suo
+
+# JetBrains (Rider/PyCharm)
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store

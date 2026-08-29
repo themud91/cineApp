@@ -1,0 +1,29 @@
+{# Page pour afficher les détails d'une salle #}
+
+{% extends 'maitre.html' %}
+
+{% block titre %}Cinéma – Détail Salle{% endblock %}
+{% block titrepage %}Détail de la salle{% endblock %}
+
+{% block contenu %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ salle.noSalle }}</h5>
+                    <p><strong>Capacité :</strong> {{ salle.capacite }}</p>
+                    <p><strong>Technologies :</strong>
+                        {% for tech in salle.technologies.all %}
+                            <span class="badge bg-secondary">{{ tech.nomTechno }}</span>
+                        {% endfor %}
+                    </p>
+                    <a href="{% url 'salle_edit' salle.id %}" class="btn btn-warning">Modifier</a>
+                    <a href="{% url 'salle_delete' salle.id %}" class="btn btn-danger">Supprimer</a>
+                    <a href="{% url 'salle_list' %}" class="btn btn-secondary">Retour</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

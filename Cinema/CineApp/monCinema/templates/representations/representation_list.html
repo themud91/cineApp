@@ -1,0 +1,40 @@
+{# Page qui affiche la liste des représentations #}
+
+{% extends 'maitre.html' %}
+
+{% block titre %}Cinéma – Représentations{% endblock %}
+{% block titrepage %}Liste des représentations{% endblock %}
+
+{% block contenu %}
+<div class="container mt-4">
+    <a href="{% url 'representation_create' %}" class="btn btn-danger mb-3">Ajouter une représentation</a>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Film</th>
+                <th>Salle</th>
+                <th>Date et heure</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        {# Parcourir les representations #}
+            {% for representation in representations %}
+            <tr>
+                <td>{{ representation.idFilm }}</td>
+                <td>{{ representation.idSalle }}</td>
+                <td>{{ representation.dateHeure }}</td>
+                <td>
+                    <a href="{% url 'representation_detail' representation.id %}" class="btn btn-sm btn-info">Détail</a>
+                    <a href="{% url 'representation_edit' representation.id %}" class="btn btn-sm btn-warning">Modifier</a>
+                    <a href="{% url 'representation_delete' representation.id %}" class="btn btn-sm btn-danger">Supprimer</a>
+                    <a href="{% url 'billet_create' representation.id %}" class="btn btn-sm btn-success">Acheter</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

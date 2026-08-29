@@ -1,0 +1,44 @@
+{# Page pour afficher les détails d'un film #}
+{% extends 'maitre.html' %}
+
+{% block titre %}Cinéma – Détail Film{% endblock %}
+{% block titrepage %}Détail du film{% endblock %}
+
+{% block contenu %}
+<div class="container mt-4">
+    <div class="film-item row g-3">
+
+        <!-- col gauche -->
+        <div class="col-12 col-md-3">
+            <div class="film-gauche">
+                <div class="film-title">{{ film.titre }}</div>
+                <div><strong>Durée</strong> : {{ film.duree }} min</div>
+                <div><strong>Catégorie</strong> : {{ film.categorie }}</div>
+                <div class="mt-2">
+                    {% for tech in film.technologies.all %}
+                        <span class="badge bg-secondary">{{ tech.nomTechno }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- col centre -->
+        <div class="col-12 col-md-6">
+            <div class="film-desc">
+                <div class="film-desc-title">Description</div>
+                <p class="mb-0">{{ film.description }}</p>
+            </div>
+        </div>
+
+        <!-- col droite -->
+        <div class="col-12 col-md-3">
+            <div class="film-droite">
+                {% if film.img %}
+                    <img class="film-img" src="{{ film.img }}" alt="{{ film.titre }}">
+                {% endif %}
+                <div class="mt-2">
+                    <a href="{% url 'film_edit' film.id %}" class="btn btn-sm btn-warning">Modifier</a>
+                </div>
+            </div>
+        </div>
+{% endblock %}
