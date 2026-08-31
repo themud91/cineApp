@@ -20,5 +20,10 @@ COPY data.json ./data.json
 
 ENV ASPNETCORE_ENVIRONMENT=Production
 
+# Le conteneur atteint la limite d'instances inotify de l'hote et CreateBuilder
+# echoue en montant le surveillant de appsettings.json. Le sondage periodique
+# n'en consomme aucune.
+ENV DOTNET_USE_POLLING_FILE_WATCHER=true
+
 # Render--> variable PORT.
 ENTRYPOINT ["sh", "-c", "dotnet TicketAPI.dll --urls http://+:${PORT:-8080}"]
