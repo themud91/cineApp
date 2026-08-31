@@ -10,12 +10,12 @@
 <div class="row g-4">
   <div class="col-12 col-md-6">
     <div class="p-3 border rounded bg-white shadow-sm h-100">
-      <h2 class="h4">Environnement de développement</h2>
+      <h2 class="h4">Environnement d'exécution</h2>
       <ul class="mb-0">
         <li>Python : {{ python_version }}</li>
         <li>Django : {{ django_version }}</li>
-        <li>Visual Studio Code : {{ vscode_version }}</li>
-        <li>PyCharm : {{ pycharm_version }}</li>
+        <li>API de billetterie : ASP.NET Core 8</li>
+        <li>Interface : Bootstrap</li>
       </ul>
     </div>
   </div>
@@ -26,7 +26,8 @@
       {% for concepteur in concepteurs %}
         <p class="mb-3">
           <strong>Nom :</strong> {{ concepteur.nom }}<br>
-          <strong>Numéro d'étudiant :</strong> {{ concepteur.numero_etudiant }}
+          <span class="text-muted">Ce site est un projet académique : une réplique du site web
+          d'un cinéma populaire du Québec.</span>
         </p>
       {% endfor %}
     </div>

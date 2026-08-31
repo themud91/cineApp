@@ -19,6 +19,9 @@ from django.views.generic import (
     DeleteView,
 )
 import datetime
+import platform
+
+import django
 
 from .models import Salle, Technologie, Films, Representation, Billet
 from .forms import (
@@ -386,10 +389,9 @@ class HistoriqueView(LoginRequiredMixin, ListView):
 def apropos_View(request):
     context = {
         "today": datetime.date.today(),
-        "python_version": "3.10.5",
-        "django_version": "4.2.3",
-        "vscode_version": "1.80.0",
-        "pycharm_version": "2023.1.3",
+        # Lues a l'execution: elles restent exactes en local comme en production.
+        "python_version": platform.python_version(),
+        "django_version": django.get_version(),
         "concepteurs": [
             {"nom": "Guillermo Perez"},
         ],
