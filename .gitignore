@@ -6,6 +6,7 @@ env/
 .venv/
 *.egg-info/
 db.sqlite3
+staticfiles/
 
 # .NET / Visual Studio
 bin/
