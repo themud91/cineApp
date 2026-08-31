@@ -1,0 +1,3 @@
+# Dossiers compiles sous Windows : les copier casse la compilation dans le conteneur.
+bin/
+obj/

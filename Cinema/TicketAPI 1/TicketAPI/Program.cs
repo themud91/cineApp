@@ -50,7 +50,11 @@ try {
         app.UseSwaggerUI();
     }
 
-    app.UseHttpsRedirection();
+    // En production (Render) le TLS se termine au proxy et le conteneur recoit
+    // du HTTP simple : la redirection n'a pas de port HTTPS a viser.
+    if (app.Environment.IsDevelopment()) {
+        app.UseHttpsRedirection();
+    }
 
     app.UseAuthorization();
 
