@@ -26,7 +26,15 @@ namespace TicketAPI.Services {
                 Text = htmlBody
             };
 
-            using var client = new SmtpClient();
+            // Sans mot de passe configure on n'essaie meme pas de se connecter :
+            // une connexion vers un port bloque n'echoue pas, elle reste suspendue
+            // et fait expirer la requete HTTP du cote de Django.
+            if (string.IsNullOrWhiteSpace(_options.Password)) {
+                return;
+            }
+
+            // Sans delai maximal, ConnectAsync peut attendre indefiniment.
+            using var client = new SmtpClient { Timeout = 10000 };
 
             var secure = _options.EnableSsl
                 ? SecureSocketOptions.StartTls

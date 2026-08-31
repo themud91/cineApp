@@ -7,14 +7,20 @@ import requests
 # En production, définir la variable d'environnement TICKET_API_URL.
 BASE_URL = os.environ.get("TICKET_API_URL", "http://localhost:5056/api/tickets")
 
+# Délai maximal des appels à l'API. Sans lui, une API qui ne répond pas bloque
+# le worker gunicorn jusqu'à ce qu'il soit tué, et Django renvoie une erreur 500.
+TIMEOUT = 60
+
 
 def get_tickets_by_representation(representation_id: int):
-    response = requests.get(f"{BASE_URL}/representation/{representation_id}")
+    response = requests.get(
+        f"{BASE_URL}/representation/{representation_id}", timeout=TIMEOUT
+    )
     return response.json()
 
 
 def get_tickets_by_user(user_id: int):
-    response = requests.get(f"{BASE_URL}/user/{user_id}")
+    response = requests.get(f"{BASE_URL}/user/{user_id}", timeout=TIMEOUT)
     return response.json()
 
 
@@ -45,7 +51,7 @@ def create_ticket(
         "dateHeure": date_heure,
     }
 
-    response = requests.post(BASE_URL, json=payload)
+    response = requests.post(BASE_URL, json=payload, timeout=TIMEOUT)
 
     if response.status_code == 201:  # Created
         return True

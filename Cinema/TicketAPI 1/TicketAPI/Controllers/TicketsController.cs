@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using TicketAPI.Models;
 using TicketAPI.Repositories;
 using TicketAPI.Requests;
@@ -58,11 +59,17 @@ namespace TicketAPI.Controllers
       </ul>
   ";
 
-            await emailService.SendAsync(
-                to: request.Email,
-                subject: "Confirmation de votre achat – Cinéma La Pocatière",
-                htmlBody: htmlBody
-            );
+            // Le billet est deja enregistre : un courriel qui ne part pas ne doit
+            // pas annuler l'achat.
+            try {
+                await emailService.SendAsync(
+                    to: request.Email,
+                    subject: "Confirmation de votre achat – Cinéma La Pocatière",
+                    htmlBody: htmlBody
+                );
+            } catch (Exception ex) {
+                Log.Error(ex, "Envoi du courriel de confirmation echoue pour le billet {Id}", billet.Id);
+            }
 
             return Created($"/api/tickets/{billet.Id}", billet);
         }
