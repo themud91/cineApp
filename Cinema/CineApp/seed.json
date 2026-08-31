@@ -1,0 +1,249 @@
+[
+{
+  "model": "cinema.technologie",
+  "pk": 1,
+  "fields": {
+    "nomTechno": "3D"
+  }
+},
+{
+  "model": "cinema.technologie",
+  "pk": 2,
+  "fields": {
+    "nomTechno": "Regulier"
+  }
+},
+{
+  "model": "cinema.technologie",
+  "pk": 3,
+  "fields": {
+    "nomTechno": "IMAX"
+  }
+},
+{
+  "model": "cinema.technologie",
+  "pk": 6,
+  "fields": {
+    "nomTechno": "VR"
+  }
+},
+{
+  "model": "cinema.salle",
+  "pk": 1,
+  "fields": {
+    "noSalle": "Salle 1",
+    "capacite": 250,
+    "technologies": [
+      2
+    ]
+  }
+},
+{
+  "model": "cinema.salle",
+  "pk": 2,
+  "fields": {
+    "noSalle": "Salle 2",
+    "capacite": 100,
+    "technologies": [
+      1
+    ]
+  }
+},
+{
+  "model": "cinema.salle",
+  "pk": 3,
+  "fields": {
+    "noSalle": "Salle 3",
+    "capacite": 120,
+    "technologies": [
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "cinema.salle",
+  "pk": 4,
+  "fields": {
+    "noSalle": "Salle 4",
+    "capacite": 80,
+    "technologies": [
+      2,
+      3
+    ]
+  }
+},
+{
+  "model": "cinema.salle",
+  "pk": 5,
+  "fields": {
+    "noSalle": "Salle 5",
+    "capacite": 200,
+    "technologies": [
+      1,
+      2,
+      3
+    ]
+  }
+},
+{
+  "model": "cinema.salle",
+  "pk": 8,
+  "fields": {
+    "noSalle": "Tp3 test",
+    "capacite": 200,
+    "technologies": [
+      2
+    ]
+  }
+},
+{
+  "model": "cinema.salle",
+  "pk": 9,
+  "fields": {
+    "noSalle": "Tp3 test2",
+    "capacite": 100,
+    "technologies": [
+      1,
+      2,
+      3
+    ]
+  }
+},
+{
+  "model": "cinema.films",
+  "pk": 2,
+  "fields": {
+    "titre": "Eyes Wide Shut",
+    "duree": 128,
+    "description": "Bill et Alice formaient le couple parfait jusqu'au jour où elle lui avoua son fantasme inassouvi. Troublé, imaginant cette aventure extraconjugale, il déambule seul dans les rues de New York, attiré par de nouvelles expériences charnelles.",
+    "categorie": "adultes",
+    "img": "https://m.media-amazon.com/images/M/MV5BZTQ0MmM5MDAtYmYyZS00MzlmLTlhZTAtZDJlZWY5ZTZkZjZmXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+    "technologies": [
+      2,
+      3
+    ]
+  }
+},
+{
+  "model": "cinema.films",
+  "pk": 3,
+  "fields": {
+    "titre": "Patton",
+    "duree": 172,
+    "description": "Portrait du general americain George S. Patton durant la Seconde Guerre mondiale, depuis ses campagnes en Afrique du Nord jusqu'a la chute du Troisieme Reich.",
+    "categorie": "comedie",
+    "img": "https://m.media-amazon.com/images/M/MV5BOTUwYjRiZDQtYWUyNy00ZmE1LWEwYzgtOTFkZmVlZDU0MDg2XkEyXkFqcGc@._V1_.jpg",
+    "technologies": [
+      2
+    ]
+  }
+},
+{
+  "model": "cinema.films",
+  "pk": 5,
+  "fields": {
+    "titre": "Super Mario Bros",
+    "duree": 92,
+    "description": "Aspirés par des canalisations, Mario et Luigi se voient propulsés dans un autre monde. Alors que ce dernier est fait prisonnier par Bowser, Mario arrive au Royaume Champignon où il s'allie avec la princesse Peach contre leur ennemi commun.",
+    "categorie": "famille",
+    "img": "https://m.media-amazon.com/images/M/MV5BZGI4ZTIxOTItNTg2MC00Y2Y1LWI2MjEtMjNiYjY2YTM5OTBjXkEyXkFqcGc@._V1_.jpg",
+    "technologies": [
+      1,
+      2,
+      3
+    ]
+  }
+},
+{
+  "model": "cinema.films",
+  "pk": 6,
+  "fields": {
+    "titre": "RoboCop 2 TESTtp3",
+    "duree": 120,
+    "description": "RoboCop, chargé de l'application de la loi des Cyborg, revient pour protéger les citoyens de l'ancien Détroit, mais est confronté à un défi mortel lorsqu'un RoboCop 2 maléfique est créé secrètement.",
+    "categorie": "sci-fi",
+    "img": "https://m.media-amazon.com/images/M/MV5BMGQzN2EwOWQtMjI2My00YzI5LTg2MDktYWU4OWNiNGViNDNjXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+    "technologies": [
+      2
+    ]
+  }
+},
+{
+  "model": "cinema.films",
+  "pk": 7,
+  "fields": {
+    "titre": "Trainspotting",
+    "duree": 130,
+    "description": "Renton, profondément immergé dans le monde de la drogue d'Édimbourg, essaie de se désintoxiquer et de s'en sortir, malgré l'attrait de la drogue et la mauvaise influence de ses amis.",
+    "categorie": "adultes",
+    "img": "https://m.media-amazon.com/images/M/MV5BNTI4NTMzYjctZDE0Ni00NTcwLWE5NzQtMjgxZDZkNTQ4YWE4XkEyXkFqcGdeQW1pYnJ5YW50._V1_QL75_UX500_CR0,0,500,281_.jpg",
+    "technologies": [
+      1,
+      2,
+      3,
+      6
+    ]
+  }
+},
+{
+  "model": "cinema.representation",
+  "pk": 11,
+  "fields": {
+    "idSalle": 4,
+    "idFilm": 2,
+    "dateHeure": "2026-04-06T22:00:00Z",
+    "technologie": 3
+  }
+},
+{
+  "model": "cinema.representation",
+  "pk": 13,
+  "fields": {
+    "idSalle": 8,
+    "idFilm": 3,
+    "dateHeure": "2026-03-28T15:00:00Z",
+    "technologie": 2
+  }
+},
+{
+  "model": "cinema.representation",
+  "pk": 14,
+  "fields": {
+    "idSalle": 1,
+    "idFilm": 5,
+    "dateHeure": "2026-03-29T01:00:00Z",
+    "technologie": 2
+  }
+},
+{
+  "model": "cinema.representation",
+  "pk": 15,
+  "fields": {
+    "idSalle": 3,
+    "idFilm": 6,
+    "dateHeure": "2026-04-27T23:30:00Z",
+    "technologie": 2
+  }
+},
+{
+  "model": "cinema.representation",
+  "pk": 16,
+  "fields": {
+    "idSalle": 3,
+    "idFilm": 6,
+    "dateHeure": "2026-04-27T00:00:00Z",
+    "technologie": 2
+  }
+},
+{
+  "model": "cinema.representation",
+  "pk": 17,
+  "fields": {
+    "idSalle": 8,
+    "idFilm": 7,
+    "dateHeure": "2026-05-02T23:00:00Z",
+    "technologie": 2
+  }
+}
+]

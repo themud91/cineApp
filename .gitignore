@@ -5,6 +5,7 @@ venv/
 env/
 .venv/
 *.egg-info/
+db.sqlite3
 
 # .NET / Visual Studio
 bin/
@@ -15,6 +16,9 @@ obj/
 
 # JetBrains (Rider/PyCharm)
 .idea/
+
+# Logs
+logs/
 
 # OS
 Thumbs.db

@@ -1,19 +1,20 @@
 # Ce fichier contient des fonctions pour interagir avec l'API C# de gestion des billets.
+import os
+
 import requests
 
-# URL de base de l'API C#
-BASE_URL = "http://localhost:5056/api/tickets"
+# URL de base de l'API C#. En local, utilise localhost par défaut.
+# En production, définir la variable d'environnement TICKET_API_URL.
+BASE_URL = os.environ.get("TICKET_API_URL", "http://localhost:5056/api/tickets")
 
 
 def get_tickets_by_representation(representation_id: int):
-    response = requests.get(
-        f"{BASE_URL}/representation/{representation_id}", verify=False
-    )  # verify=False est un paramètre de la librairie requests qui désactive la validation du certificat SSL lors d’un appel HTTPS.
+    response = requests.get(f"{BASE_URL}/representation/{representation_id}")
     return response.json()
 
 
 def get_tickets_by_user(user_id: int):
-    response = requests.get(f"{BASE_URL}/user/{user_id}", verify=False)
+    response = requests.get(f"{BASE_URL}/user/{user_id}")
     return response.json()
 
 
@@ -44,7 +45,7 @@ def create_ticket(
         "dateHeure": date_heure,
     }
 
-    response = requests.post(BASE_URL, json=payload, verify=False)
+    response = requests.post(BASE_URL, json=payload)
 
     if response.status_code == 201:  # Created
         return True
