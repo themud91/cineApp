@@ -5,13 +5,16 @@ using TicketAPI.Models;
 using TicketAPI.Repositories;
 using TicketAPI.Services;
 
+// Logger provisoire actif des la premiere ligne. Sans lui, une exception levee
+// dans CreateBuilder serait avalee en silence : le catch appellerait Log.Fatal
+// sur un logger pas encore configure et le conteneur mourrait sans rien afficher.
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+    .WriteTo.Console()
+    .CreateBootstrapLogger();
+
 try {
     var builder = WebApplication.CreateBuilder(args);
-
-    Log.Logger = new LoggerConfiguration()
-       .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
-        .WriteTo.Console()
-        .CreateLogger();
 
     builder.Services.AddHttpLogging(logging => {
         logging.LoggingFields = HttpLoggingFields.All;
@@ -67,6 +70,8 @@ try {
     app.Run();
 } catch (Exception ex) {
     Log.Fatal(ex, "Application terminated unexpectedly");
+    // Sans ceci le processus sort avec le code 0 et l'echec passe inapercu.
+    Environment.ExitCode = 1;
 } finally {
     Log.CloseAndFlush();
 }
