@@ -90,7 +90,7 @@
   "model": "cinema.salle",
   "pk": 8,
   "fields": {
-    "noSalle": "Tp3 test",
+    "noSalle": "Tp test",
     "capacite": 200,
     "technologies": [
       2
@@ -101,7 +101,7 @@
   "model": "cinema.salle",
   "pk": 9,
   "fields": {
-    "noSalle": "Tp3 test2",
+    "noSalle": "Tp test2",
     "capacite": 100,
     "technologies": [
       1,
@@ -159,7 +159,7 @@
   "model": "cinema.films",
   "pk": 6,
   "fields": {
-    "titre": "RoboCop 2 TESTtp3",
+    "titre": "RoboCop 2 ",
     "duree": 120,
     "description": "RoboCop, chargé de l'application de la loi des Cyborg, revient pour protéger les citoyens de l'ancien Détroit, mais est confronté à un défi mortel lorsqu'un RoboCop 2 maléfique est créé secrètement.",
     "categorie": "sci-fi",
