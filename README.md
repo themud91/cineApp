@@ -28,16 +28,16 @@ Le projet est composé de deux services indépendants qui communiquent par API R
 
 ## Démonstration
 
-Lien en direct : *(à venir — déploiement en cours)*
+Lien en direct : https://cineapp-cmad.onrender.com
 
-### Comptes de démonstration
+Le service est hébergé sur un plan gratuit : il se met en veille après 15 minutes
+d'inactivité, donc le premier chargement peut prendre une minute.
 
-| Utilisateur | Mot de passe |
-|---|---|
-| tp3 | 123456 |
-| tp32 | MotDePasse42 |
+### Accès
 
-Comptes utilisateurs standards, sans accès administrateur.
+Aucun compte de démonstration n'est fourni. Créez le vôtre depuis la page
+d'inscription du site : l'accès est immédiat et donne droit à toutes les
+fonctionnalités utilisateur.
 
 ## Installation locale
 
@@ -47,8 +47,9 @@ Comptes utilisateurs standards, sans accès administrateur.
 cd Cinema/CineApp
 python -m venv venv
 venv\Scripts\activate
-pip install django
+pip install -r requirements.txt
 python manage.py migrate
+python manage.py loaddata seed.json
 python manage.py runserver
 ```
 
