@@ -9,7 +9,7 @@ namespace TicketAPI.Controllers {
     public class PingAPIController(ITicketRepository ticketRepository) : ControllerBase {
         [HttpGet]
         public OkObjectResult Get() {
-            return Ok("{\"ping\":\"pong\"}");
+            return Ok("{\"ping\":\"pong\",\"diag\":\"v3-global-mw\"}");
         } 
     }
 }
