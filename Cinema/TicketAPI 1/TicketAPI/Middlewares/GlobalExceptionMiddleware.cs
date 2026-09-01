@@ -2,6 +2,10 @@
 using System.Text.Json;
 
 namespace TicketAPI.Middlewares {
+
+    // Dernier filet du pipeline : sans lui, une exception non geree ressort en
+    // 500 vide de Kestrel, sans corps ni trace. C'est exactement ce qui a rendu
+    // le bug de la cle partagee si couteux a diagnostiquer.
     internal sealed class GlobalExceptionMiddleware(
       RequestDelegate next,
       ILogger<GlobalExceptionMiddleware> logger,
@@ -9,27 +13,35 @@ namespace TicketAPI.Middlewares {
   ) {
         public async Task InvokeAsync(HttpContext context) {
             try {
-                logger.Log(LogLevel.Information, "=====================================================Begin Transaction=====================================================");
                 await next(context);
-                logger.Log(LogLevel.Information, "=====================================================End Transaction=====================================================");
             } catch (Exception ex) {
-                if (ex is not OperationCanceledException) {
-                    logger.Log(LogLevel.Critical, "=====================================================ERROR/EXCEPTION HAPPENED=====================================================");
-                    logger.LogError(ex, message: ex.Message);
+                if (ex is OperationCanceledException) {
+                    // Le client a coupe la connexion : ce n'est pas une panne.
+                    throw;
                 }
 
+                logger.LogCritical(ex, "Exception non geree sur {Method} {Path}",
+                    context.Request.Method, context.Request.Path);
+
+                // Si la reponse est deja partie sur le fil, y ecrire leverait une
+                // seconde exception qui masquerait la premiere.
+                if (context.Response.HasStarted) {
+                    throw;
+                }
+
+                context.Response.Clear();
                 context.Response.ContentType = "application/json";
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
+                // Le stack trace ne sort qu'en developpement : en production il
+                // exposerait la structure interne de l'API.
                 AppException response = env.IsDevelopment()
                     ? new(context.Response.StatusCode, ex.Message, ex.ToString())
                     : new(context.Response.StatusCode, "Internal Server Error");
 
                 JsonSerializerOptions options = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
-                var json = JsonSerializer.Serialize(response, options);
-
-                await context.Response.WriteAsync(json);
+                await context.Response.WriteAsync(JsonSerializer.Serialize(response, options));
             }
         }
     }

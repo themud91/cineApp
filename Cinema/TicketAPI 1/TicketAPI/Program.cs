@@ -1,6 +1,7 @@
 using Serilog;
 using Serilog.Events;
 using TicketAPI.Filters;
+using TicketAPI.Middlewares;
 using TicketAPI.Models;
 using TicketAPI.Repositories;
 using TicketAPI.Services;
@@ -40,6 +41,10 @@ try {
     builder.Services.AddScoped<ApiKeyAuthFilter>();
 
     var app = builder.Build();
+
+    // Premiere ligne du pipeline : toute exception qui remonte jusqu'ici est
+    // journalisee et renvoyee en JSON au lieu d'un 500 vide.
+    app.UseMiddleware<GlobalExceptionMiddleware>();
 
     if (app.Environment.IsDevelopment()) {
         app.UseSwagger();

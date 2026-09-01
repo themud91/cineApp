@@ -22,11 +22,15 @@
             <form method="POST">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <!-- Champ email requis pour l'envoi du courriel de confirmation via l'API C# -->
+                {# La confirmation part vers l'adresse du compte. Pas de champ
+                   libre ici : il transformait la page en relais de courriel ouvert. #}
                 <p>
-                    <label for="email"><strong>Courriel de confirmation :</strong></label><br>
-                    <input type="email" id="email" name="email" class="form-control mt-1"
-                        placeholder="votre@courriel.com" value="{{ request.user.email }}" required>
+                    <strong>Courriel de confirmation :</strong><br>
+                    {% if request.user.email %}
+                        <span class="text-muted">{{ request.user.email }}</span>
+                    {% else %}
+                        <span class="text-danger">Aucune adresse courriel n'est associée à votre compte.</span>
+                    {% endif %}
                 </p>
                 <button type="submit" class="btn btn-success">Acheter</button>
                 <a href="{% url 'representation_list' %}" class="btn btn-secondary">Annuler</a>

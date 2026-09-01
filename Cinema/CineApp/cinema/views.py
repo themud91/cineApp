@@ -290,10 +290,17 @@ class BilletCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
             )
             return self.form_invalid(form)
 
-        # Recuperer l'email du formulaire (ou de l'utilisateur connecté) pour l'API
-        email = self.request.POST.get("email", "").strip()
+        # La confirmation part vers l'adresse du compte, jamais vers une adresse
+        # saisie dans le formulaire. Un champ libre faisait de cette page un relais
+        # de courriel ouvert : n'importe qui pouvait faire envoyer un courriel
+        # depuis notre compte Brevo vers l'adresse de son choix.
+        email = (self.request.user.email or "").strip()
         if not email:
-            messages.error(self.request, "Veuillez entrer une adresse courriel valide.")
+            messages.error(
+                self.request,
+                "Votre compte n'a pas d'adresse courriel. Ajoutez-en une à votre "
+                "compte pour recevoir la confirmation d'achat.",
+            )
             return self.form_invalid(form)
 
         rep = self.representation

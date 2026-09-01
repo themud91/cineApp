@@ -138,6 +138,10 @@ class BilletForm(forms.ModelForm):
 
 # Formulaire d'inscription
 class RegisterForm(UserCreationForm):
+    # Obligatoire : c'est la seule adresse vers laquelle part la confirmation
+    # d'achat. Le modele User la laisse facultative par defaut.
+    email = forms.EmailField(required=True)
+
     class Meta:
         model = User
         fields = [
