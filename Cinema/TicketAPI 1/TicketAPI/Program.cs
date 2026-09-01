@@ -51,7 +51,18 @@ try {
     builder.Services.AddScoped<ApiKeyAuthFilter>();
 
     var app = builder.Build();
-     
+
+    // DIAGNOSTIC TEMPORAIRE : capture toute exception non geree, peu importe
+    // ou elle survient dans le pipeline. A retirer une fois la cause trouvee.
+    app.Use(async (context, next) => {
+        try {
+            await next();
+        } catch (Exception ex) {
+            Log.Fatal(ex, "DIAGNOSTIC GLOBAL: exception non geree pour {Method} {Path}", context.Request.Method, context.Request.Path);
+            throw;
+        }
+    });
+
     if (app.Environment.IsDevelopment()) {
         app.UseSwagger();
         app.UseSwaggerUI();
