@@ -409,7 +409,7 @@ def apropos_View(request):
             },
             {
                 "titre": "Blocage du double achat",
-                "description": "Empêche un utilisateur d'acheter deux billets pour la même représentation.",
+                "description": "Un utilisateur ne peut effectuer qu'un seul achat par représentation. Cet achat peut porter sur plusieurs billets, dans la limite des places restantes.",
             },
             {
                 "titre": "API ASP.NET Core – Billetterie",
