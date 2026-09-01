@@ -15,6 +15,14 @@ namespace TicketAPI.Controllers
     public class TicketsController(ITicketRepository ticketRepository, IEmailService emailService) : ControllerBase
     {
 
+        // GET /api/tickets/throw-test
+        // DIAGNOSTIC TEMPORAIRE : a retirer une fois la cause trouvee.
+        [HttpGet("throw-test")]
+        public ActionResult ThrowTest()
+        {
+            throw new InvalidOperationException("TEST-FORCE-THROW");
+        }
+
         // GET /api/tickets/representation/{idRepresentation}
         [HttpGet("representation/{idRepresentation}")]
         public async Task<ActionResult<List<Billet>>> GetByRepresentation(int idRepresentation)
