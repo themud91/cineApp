@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.HttpLogging;
 using Serilog;
 using Serilog.Events;
 using TicketAPI.Filters;
@@ -17,20 +16,10 @@ Log.Logger = new LoggerConfiguration()
 try {
     var builder = WebApplication.CreateBuilder(args);
 
-    builder.Services.AddHttpLogging(logging => {
-        logging.LoggingFields = HttpLoggingFields.All;
-        logging.RequestHeaders.Add("sec-ch-ua");
-        logging.ResponseHeaders.Add("LoggingHeader");
-        logging.RequestBodyLogLimit = 4096;
-        logging.ResponseBodyLogLimit = 4096;
-        logging.CombineLogs = true;
-    });
-
     builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
     Log.Information("Starting Web Application");
-     
 
-    builder.Services.AddControllers(); 
+    builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 
@@ -51,24 +40,6 @@ try {
     builder.Services.AddScoped<ApiKeyAuthFilter>();
 
     var app = builder.Build();
-
-    // DIAGNOSTIC TEMPORAIRE : capture toute exception non geree, peu importe
-    // ou elle survient dans le pipeline. A retirer une fois la cause trouvee.
-    app.Use(async (context, next) => {
-        try {
-            await next();
-        } catch (Exception ex) {
-            try {
-                Console.Out.WriteLine("RAW-DIAGNOSTIC-BEGIN");
-                Console.Out.WriteLine(ex.ToString());
-                Console.Out.WriteLine("RAW-DIAGNOSTIC-END");
-                Console.Out.Flush();
-            } catch (Exception ex2) {
-                Console.Out.WriteLine("RAW-DIAGNOSTIC-LOGGING-ITSELF-THREW: " + ex2);
-            }
-            throw;
-        }
-    });
 
     if (app.Environment.IsDevelopment()) {
         app.UseSwagger();

@@ -14,15 +14,6 @@ namespace TicketAPI.Controllers
     [ServiceFilter(typeof(ApiKeyAuthFilter))]
     public class TicketsController(ITicketRepository ticketRepository, IEmailService emailService) : ControllerBase
     {
-
-        // GET /api/tickets/throw-test
-        // DIAGNOSTIC TEMPORAIRE : a retirer une fois la cause trouvee.
-        [HttpGet("throw-test")]
-        public ActionResult ThrowTest()
-        {
-            throw new InvalidOperationException("TEST-FORCE-THROW");
-        }
-
         // GET /api/tickets/representation/{idRepresentation}
         [HttpGet("representation/{idRepresentation}")]
         public async Task<ActionResult<List<Billet>>> GetByRepresentation(int idRepresentation)
@@ -43,21 +34,19 @@ namespace TicketAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Billet>> Create([FromBody] BilletRequest request)
         {
-            try
+            var billet = new Billet
             {
-                var billet = new Billet
-                {
-                    IdFilm = request.IdFilm,
-                    IdReprensation = request.IdRepresentation,
-                    IdSalle = request.IdSalle,
-                    IdUtilisateur = request.IdUtilisateur,
-                    Prix = request.Prix,
-                    NombreBillets = request.NombreBillets
-                };
+                IdFilm = request.IdFilm,
+                IdReprensation = request.IdRepresentation,
+                IdSalle = request.IdSalle,
+                IdUtilisateur = request.IdUtilisateur,
+                Prix = request.Prix,
+                NombreBillets = request.NombreBillets
+            };
 
-                await ticketRepository.AddAsync(billet);
+            await ticketRepository.AddAsync(billet);
 
-                string htmlBody = $@"
+            string htmlBody = $@"
       <h1>Merci pour votre achat !</h1>
       <p>Voici les informations de votre billet :</p>
       <ul>
@@ -70,26 +59,22 @@ namespace TicketAPI.Controllers
       </ul>
   ";
 
-                // Le billet est deja enregistre : un courriel qui ne part pas ne doit
-                // pas annuler l'achat.
-                try {
-                    await emailService.SendAsync(
-                        to: request.Email,
-                        subject: "Confirmation de votre achat – CineApp",
-                        htmlBody: htmlBody
-                    );
-                } catch (Exception ex) {
-                    Log.Error(ex, "Envoi du courriel de confirmation echoue pour le billet {Id}", billet.Id);
-                }
-
-                return Created($"/api/tickets/{billet.Id}", billet);
+            // Le billet est deja enregistre : un courriel qui ne part pas ne doit
+            // pas annuler l'achat.
+            try
+            {
+                await emailService.SendAsync(
+                    to: request.Email,
+                    subject: "Confirmation de votre achat – CineApp",
+                    htmlBody: htmlBody
+                );
             }
             catch (Exception ex)
             {
-                // DIAGNOSTIC TEMPORAIRE : a retirer une fois la cause trouvee.
-                Log.Error(ex, "DIAGNOSTIC: exception non geree dans Create()");
-                throw;
+                Log.Error(ex, "Envoi du courriel de confirmation echoue pour le billet {Id}", billet.Id);
             }
+
+            return Created($"/api/tickets/{billet.Id}", billet);
         }
     }
 }

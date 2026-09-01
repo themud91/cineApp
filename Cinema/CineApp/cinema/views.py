@@ -320,15 +320,18 @@ class BilletCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
             )
             return self.form_invalid(form)
 
-        messages.success(
-            self.request,
-            "Billet acheté avec succès ! Un courriel de confirmation vous a été envoyé.",
-        )
-        # enregistrer chez Django
+        # enregistrer chez Django. Le message de succes vient apres le save :
+        # annoncer l'achat avant de l'enregistrer laisserait l'utilisateur avec
+        # une confirmation pour un billet qui n'existe pas.
         billet = form.save(commit=False)
         billet.idRepresentation = self.representation
         billet.user = self.request.user
         billet.save()
+
+        messages.success(
+            self.request,
+            "Billet acheté avec succès ! Un courriel de confirmation vous a été envoyé.",
+        )
         return redirect(self.success_url)
 
 
