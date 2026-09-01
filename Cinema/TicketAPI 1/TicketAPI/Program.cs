@@ -41,9 +41,11 @@ try {
     });
 
     //Enregistrement du service de courriel avec la configuration de appSettings.json.
-    builder.Services.Configure<SmtpOptions>(
-    builder.Configuration.GetSection("Smtp")); 
-    builder.Services.AddTransient<IEmailService, EmailService>();
+    builder.Services.Configure<BrevoOptions>(
+        builder.Configuration.GetSection("Brevo"));
+    builder.Services.AddHttpClient<IEmailService, EmailService>(client => {
+        client.BaseAddress = new Uri("https://api.brevo.com/");
+    });
     // Service de repository pour gérer les billets, enregistré en tant que service scoped pour avoir une instance par requête HTTP.
     builder.Services.AddScoped<ITicketRepository, TicketRepository>();
     builder.Services.AddScoped<ApiKeyAuthFilter>();
