@@ -1,1 +1,11 @@
-[]
+[
+  {
+    "Id": "0ab0f69c-d54e-4dc7-a3d5-d4f4bd24ce89",
+    "IdFilm": 1,
+    "IdReprensation": 1,
+    "IdSalle": 1,
+    "IdUtilisateur": 1,
+    "Prix": 10,
+    "NombreBillets": 1
+  }
+]

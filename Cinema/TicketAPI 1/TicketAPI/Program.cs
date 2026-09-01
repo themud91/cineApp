@@ -58,7 +58,15 @@ try {
         try {
             await next();
         } catch (Exception ex) {
+            Console.Error.WriteLine("RAW-DIAGNOSTIC: " + ex);
             Log.Fatal(ex, "DIAGNOSTIC GLOBAL: exception non geree pour {Method} {Path}", context.Request.Method, context.Request.Path);
+            if (!context.Response.HasStarted) {
+                context.Response.Clear();
+                context.Response.StatusCode = 599;
+                context.Response.ContentType = "text/plain";
+                await context.Response.WriteAsync(ex.ToString());
+                return;
+            }
             throw;
         }
     });
