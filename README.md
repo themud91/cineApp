@@ -1,6 +1,6 @@
 # CineApp
 
-Réplique du site web d'un cinéma populaire du Québec, réalisée dans le cadre d'une activité académique.
+Application web de billetterie de cinéma : catalogue de films, réservation de billets et historique d'achats.
 
 ## Architecture
 

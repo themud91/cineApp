@@ -44,8 +44,6 @@ namespace TicketAPI.Controllers
 
             await ticketRepository.AddAsync(billet);
 
-            //Le courriel doit afficher les informations de la représentation (titre du film, salle, dateHeure) ainsi que le nombre de billets acheté.
-
             string htmlBody = $@"
       <h1>Merci pour votre achat !</h1>
       <p>Voici les informations de votre billet :</p>
@@ -64,7 +62,7 @@ namespace TicketAPI.Controllers
             try {
                 await emailService.SendAsync(
                     to: request.Email,
-                    subject: "Confirmation de votre achat – Cinéma La Pocatière",
+                    subject: "Confirmation de votre achat – CineApp",
                     htmlBody: htmlBody
                 );
             } catch (Exception ex) {

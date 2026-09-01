@@ -8,7 +8,6 @@
 # get_context_data: https://docs.djangoproject.com/fr/4.1/ref/class-based-views/mixins-simple/#django.views.generic.base.ContextMixin.get_context_data
 # form_valid: https://docs.djangoproject.com/fr/4.1/ref/class-based-views/mixins-editing/#django.views.generic.edit.ModelFormMixin.form_valid
 # SuccessMessageMixin: https://docs.djangoproject.com/fr/4.1/ref/contrib/messages/#django.contrib.messages.views.SuccessMessageMixin
-# Authentification : permissions/inventaire/views.py
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import (
@@ -36,7 +35,7 @@ from .forms import (
 # Auth
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
-# pour repondre au besoin : " je souhaite avoir un message de confirmation de chaque opération ..."
+# Message de confirmation apres chaque operation
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 
@@ -166,7 +165,7 @@ class FilmDeleteView(StaffRequiredMixin, SuccessMessageMixin, DeleteView):
     success_message = "Film supprimé avec succès!"
 
 
-# Representations seule pour Admin (StaffRequiredMixin) et message du success (SuccessMessageMixin) selon besoin
+# Representations : reserve aux admins, avec message de confirmation
 class RepresentationListView(StaffRequiredMixin, ListView):
     model = Representation
     template_name = "representations/representation_list.html"
@@ -281,7 +280,7 @@ class BilletCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
             )
             return self.form_invalid(form)
 
-        # Besoin d'user "...ne pas choisir deux fois la même représentation..."
+        # Un utilisateur ne peut pas acheter deux fois la meme representation
         if Billet.objects.filter(
             user=self.request.user, idRepresentation=self.representation
         ).exists():
@@ -361,7 +360,7 @@ class BilletListView(StaffRequiredMixin, ListView):
         return data
 
 
-# Authentification : Creation du login  reference: permissions/inventaire/views.py
+# Inscription d'un nouvel utilisateur
 def register_view(request):
     if request.method == "POST":
         form = RegisterForm(request.POST)

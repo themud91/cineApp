@@ -90,7 +90,7 @@
   "model": "cinema.salle",
   "pk": 8,
   "fields": {
-    "noSalle": "Tp test",
+    "noSalle": "Salle 6",
     "capacite": 200,
     "technologies": [
       2
@@ -101,7 +101,7 @@
   "model": "cinema.salle",
   "pk": 9,
   "fields": {
-    "noSalle": "Tp test2",
+    "noSalle": "Salle 7",
     "capacite": 100,
     "technologies": [
       1,

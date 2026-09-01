@@ -2,8 +2,7 @@
     using System.Text.Json;
     using System.Threading;
 
-    //Ne touchez pas à cette classe, elle est utilisée pour stocker les données dans un fichier JSON.
-    //Vous pouvez l'utiliser pour stocker les billets vendus.
+    // Stockage des billets dans un fichier JSON plat.
     public class JsonFileDatabase<T> where T : class {
         private readonly string _filePath;
         private readonly SemaphoreSlim _lock = new(1, 1);

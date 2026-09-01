@@ -3,14 +3,14 @@
 {% extends 'maitre.html' %}
 {% load static %}
 
-{% block titre %}Cinéma – Accueil{% endblock %}
-{% block titrepage %}Cinéma – Accueil{% endblock %}
+{% block titre %}CineApp – Accueil{% endblock %}
+{% block titrepage %}CineApp – Accueil{% endblock %}
 
 {% block contenu %}
 <div class="container mt-4">
   <div class="row g-4 align-items-center mb-5">
     <div class="col-md-6">
-      <h2>Bienvenue au Cinéma le Scénario</h2>
+      <h2>Bienvenue chez CineApp</h2>
       <p>Le meilleur endroit pour voir vos films préférés de la saison. Découvrez nos représentations à l'affiche, choisissez votre séance et réservez vos places en quelques clics.</p>
       <a href="{% url 'billets' %}" class="btn btn-danger">Voir les films</a>
     </div>

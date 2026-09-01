@@ -9,7 +9,7 @@ namespace TicketAPI.Controllers {
     public class PingAPIController(ITicketRepository ticketRepository) : ControllerBase {
         [HttpGet]
         public OkObjectResult Get() {
-            return Ok("{\"ping\":\"pong, ceci est un test! Créer un nouveau controller API (NON MVC) pour ce TP\"}");
+            return Ok("{\"ping\":\"pong\"}");
         } 
     }
 }

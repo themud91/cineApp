@@ -1,4 +1,4 @@
-{# Page partie 6 = A propos #}
+{# Page À propos #}
 
 {% extends 'maitre.html' %}
 {% load static %}
@@ -26,8 +26,8 @@
       {% for concepteur in concepteurs %}
         <p class="mb-3">
           <strong>Nom :</strong> {{ concepteur.nom }}<br>
-          <span class="text-muted">Ce site est un projet académique : une réplique du site web
-          d'un cinéma populaire du Québec.</span>
+          <span class="text-muted">Application de billetterie de cinéma : catalogue des films,
+          réservation en ligne et historique d'achats.</span>
         </p>
       {% endfor %}
     </div>

@@ -136,7 +136,7 @@ class BilletForm(forms.ModelForm):
         return quantite
 
 
-# RegisterForm reference: permissions/inventaire/forms.py
+# Formulaire d'inscription
 class RegisterForm(UserCreationForm):
     class Meta:
         model = User
