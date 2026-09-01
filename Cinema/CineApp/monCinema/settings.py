@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 import os
 from pathlib import Path
 
+from django.core.exceptions import ImproperlyConfigured
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -20,14 +22,25 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# En developpement, la cle par defaut suffit. En production, definir DJANGO_SECRET_KEY.
-SECRET_KEY = os.environ.get(
-    "DJANGO_SECRET_KEY",
-    "django-insecure-%kzuobtrag%_915%pv2m8nb54@t#qw1jz#w#15^l@e=jgtxgs5",
-)
+# Render definit automatiquement RENDER=true sur tous ses services : on s'en
+# sert pour distinguer la production du developpement local. En local, la cle
+# par defaut suffit. En production, DJANGO_SECRET_KEY et DJANGO_DEBUG doivent
+# etre definies explicitement, sinon le demarrage plante au lieu de se
+# degrader silencieusement avec la cle de developpement (publiee sur GitHub).
+IS_RENDER = os.environ.get("RENDER") == "true"
+_secret_key = os.environ.get("DJANGO_SECRET_KEY")
+_debug_raw = os.environ.get("DJANGO_DEBUG")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DJANGO_DEBUG", "True") == "True"
+if IS_RENDER:
+    if not _secret_key:
+        raise ImproperlyConfigured("DJANGO_SECRET_KEY doit etre definie en production (Render).")
+    if _debug_raw is None:
+        raise ImproperlyConfigured("DJANGO_DEBUG doit etre definie explicitement en production (Render).")
+    SECRET_KEY = _secret_key
+    DEBUG = _debug_raw == "True"
+else:
+    SECRET_KEY = _secret_key or "django-insecure-%kzuobtrag%_915%pv2m8nb54@t#qw1jz#w#15^l@e=jgtxgs5"
+    DEBUG = (_debug_raw or "True") == "True"
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 

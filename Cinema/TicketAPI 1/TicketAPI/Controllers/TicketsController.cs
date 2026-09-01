@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Serilog;
+using System.Text.Encodings.Web;
+using TicketAPI.Filters;
 using TicketAPI.Models;
 using TicketAPI.Repositories;
 using TicketAPI.Requests;
@@ -9,6 +11,7 @@ namespace TicketAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ServiceFilter(typeof(ApiKeyAuthFilter))]
     public class TicketsController(ITicketRepository ticketRepository, IEmailService emailService) : ControllerBase
     {
 
@@ -49,9 +52,9 @@ namespace TicketAPI.Controllers
       <p>Voici les informations de votre billet :</p>
       <ul>
           <li><strong>Numéro de billet :</strong> {billet.Id}</li>
-          <li><strong>Film :</strong> {request.TitreFilm}</li>
-          <li><strong>Salle :</strong> {request.NomSalle}</li>
-          <li><strong>Date et heure :</strong> {request.DateHeure}</li>
+          <li><strong>Film :</strong> {HtmlEncoder.Default.Encode(request.TitreFilm)}</li>
+          <li><strong>Salle :</strong> {HtmlEncoder.Default.Encode(request.NomSalle)}</li>
+          <li><strong>Date et heure :</strong> {HtmlEncoder.Default.Encode(request.DateHeure)}</li>
           <li><strong>Nombre de billets :</strong> {billet.NombreBillets}</li>
           <li><strong>Prix total :</strong> {billet.Prix:C}</li>
       </ul>

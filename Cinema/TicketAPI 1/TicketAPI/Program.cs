@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.HttpLogging;
 using Serilog;
 using Serilog.Events;
+using TicketAPI.Filters;
 using TicketAPI.Models;
 using TicketAPI.Repositories;
 using TicketAPI.Services;
@@ -45,6 +46,7 @@ try {
     builder.Services.AddTransient<IEmailService, EmailService>();
     // Service de repository pour gérer les billets, enregistré en tant que service scoped pour avoir une instance par requête HTTP.
     builder.Services.AddScoped<ITicketRepository, TicketRepository>();
+    builder.Services.AddScoped<ApiKeyAuthFilter>();
 
     var app = builder.Build();
      
