@@ -24,7 +24,7 @@ class SalleForm(forms.ModelForm):
     def clean_capacite(self):
         # get la capacite..
         capacite = self.cleaned_data.get("capacite")
-        # error si la capacite inséré n'est pas correcte, double validation (dans views, et forms)
+        # error si la capacite insere n'est pas correcte, double validation (dans views, et forms)
         if capacite < 1 or capacite > 250:
             raise forms.ValidationError("La capacité doit être entre 1 et 250.")
         return capacite

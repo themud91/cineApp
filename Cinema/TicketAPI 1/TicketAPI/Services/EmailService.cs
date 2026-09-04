@@ -5,9 +5,7 @@ using TicketAPI.Models;
 
 namespace TicketAPI.Services {
 
-    // Envoie via l'API HTTP de Brevo (port 443). Render bloque le port SMTP
-    // sortant (587) sur le plan gratuit, confirme en production : voir
-    // CineApp-TODO.md, section "Envoi de correo".
+    // Envoi via l'API HTTP de Brevo (port 443) : Render bloque le port SMTP sortant.
     public sealed class EmailService(
         HttpClient httpClient,
         IOptions<BrevoOptions> options,
@@ -21,9 +19,7 @@ namespace TicketAPI.Services {
             string htmlBody,
             CancellationToken cancellationToken = default) {
 
-            // Sans cle configuree on n'essaie meme pas d'appeler Brevo : un
-            // courriel qui echoue ne doit pas annuler l'achat (voir TicketsController).
-            // Le log evite que l'absence d'envoi passe pour un envoi reussi.
+            // Sans cle configuree on n'appelle pas Brevo, et le log evite que l'absence d'envoi passe inapercue.
             if (string.IsNullOrWhiteSpace(_options.ApiKey)) {
                 logger.LogWarning(
                     "Brevo:ApiKey absente de la configuration : aucun courriel envoye a {To}. "

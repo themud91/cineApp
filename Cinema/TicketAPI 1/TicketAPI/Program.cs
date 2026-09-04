@@ -24,7 +24,7 @@ try {
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 
-    //Enregistrement de la base de données JSON en tant que service singleton pour pouvoir l'injecter dans les repositories.
+    //Enregistrement de la base de donnees JSON en tant que service singleton pour pouvoir l'injecter dans les repositories.
     builder.Services.AddSingleton(sp => {
         var env = sp.GetRequiredService<IWebHostEnvironment>();
         return new JsonFileDatabase<Billet>(env, "data.json");
@@ -36,7 +36,7 @@ try {
     builder.Services.AddHttpClient<IEmailService, EmailService>(client => {
         client.BaseAddress = new Uri("https://api.brevo.com/");
     });
-    // Service de repository pour gérer les billets, enregistré en tant que service scoped pour avoir une instance par requête HTTP.
+    // Service de repository pour gerer les billets, enregistre en tant que service scoped pour avoir une instance par requete HTTP.
     builder.Services.AddScoped<ITicketRepository, TicketRepository>();
     builder.Services.AddScoped<ApiKeyAuthFilter>();
 

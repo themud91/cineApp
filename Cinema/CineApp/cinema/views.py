@@ -42,6 +42,9 @@ from django.contrib.messages.views import SuccessMessageMixin
 # Client de l'API C#
 from .api_client import *
 
+# Prix unitaire d'un billet, en dollars
+PRIX_BILLET = 12.0
+
 
 # Accueil
 def accueilView(request):
@@ -273,12 +276,10 @@ class BilletCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
     # form_valid verifie la capacite restante et lie le billet a la representation avant le save
     def form_valid(self, form):
+        from django.db import transaction
+        from django.db.models import Sum
+
         quantite = form.cleaned_data["quantite"]
-        if quantite > self.places_restantes:
-            messages.error(
-                self.request, f"Seulement {self.places_restantes} place(s) disponibles."
-            )
-            return self.form_invalid(form)
 
         # Un utilisateur ne peut pas acheter deux fois la meme representation
         if Billet.objects.filter(
@@ -290,10 +291,7 @@ class BilletCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
             )
             return self.form_invalid(form)
 
-        # La confirmation part vers l'adresse du compte, jamais vers une adresse
-        # saisie dans le formulaire. Un champ libre faisait de cette page un relais
-        # de courriel ouvert : n'importe qui pouvait faire envoyer un courriel
-        # depuis notre compte Brevo vers l'adresse de son choix.
+        # La confirmation part vers l'adresse du compte, jamais vers une adresse du POST.
         email = (self.request.user.email or "").strip()
         if not email:
             messages.error(
@@ -303,37 +301,53 @@ class BilletCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
             )
             return self.form_invalid(form)
 
-        rep = self.representation
-
-        # Appel de l'API C# pour créer le billet
-        try:
-            create_ticket(
-                id_film=rep.idFilm.id,
-                id_representation=rep.id,
-                id_salle=rep.idSalle.id,
-                id_utilisateur=self.request.user.id,
-                prix=float(rep.prix) if hasattr(rep, "prix") else 0.0,
-                nombre_billets=quantite,
-                email=email,
-                titre_film=rep.idFilm.titre,
-                nom_salle=rep.idSalle.noSalle,
-                date_heure=str(rep.dateHeure),
+        # select_for_update() verrouille la representation : deux achats concurrents ne passent pas le controle en meme temps.
+        with transaction.atomic():
+            rep = Representation.objects.select_for_update().get(
+                id=self.representation.id
             )
-
-        except Exception:
-            messages.error(
-                self.request,
-                "Impossible de contacter le service de billetterie. Veuillez réessayer.",
+            billets_vendus = (
+                Billet.objects.filter(idRepresentation=rep).aggregate(
+                    total=Sum("quantite")
+                )["total"]
+                or 0
             )
-            return self.form_invalid(form)
+            places_restantes = rep.idSalle.capacite - billets_vendus
+            if quantite > places_restantes:
+                messages.error(
+                    self.request, f"Seulement {places_restantes} place(s) disponibles."
+                )
+                return self.form_invalid(form)
 
-        # enregistrer chez Django. Le message de succes vient apres le save :
-        # annoncer l'achat avant de l'enregistrer laisserait l'utilisateur avec
-        # une confirmation pour un billet qui n'existe pas.
-        billet = form.save(commit=False)
-        billet.idRepresentation = self.representation
-        billet.user = self.request.user
-        billet.save()
+            # Appel de l'API C# pour creer le billet
+            try:
+                create_ticket(
+                    id_film=rep.idFilm.id,
+                    id_representation=rep.id,
+                    id_salle=rep.idSalle.id,
+                    id_utilisateur=self.request.user.id,
+                    prix=PRIX_BILLET * quantite,
+                    nombre_billets=quantite,
+                    email=email,
+                    titre_film=rep.idFilm.titre,
+                    nom_salle=rep.idSalle.noSalle,
+                    date_heure=str(rep.dateHeure),
+                )
+
+            except Exception:
+                messages.error(
+                    self.request,
+                    "Impossible de contacter le service de billetterie. Veuillez réessayer.",
+                )
+                return self.form_invalid(form)
+
+            # enregistrer chez Django. Le message de succes vient apres le save :
+            # annoncer l'achat avant de l'enregistrer laisserait l'utilisateur avec
+            # une confirmation pour un billet qui n'existe pas.
+            billet = form.save(commit=False)
+            billet.idRepresentation = self.representation
+            billet.user = self.request.user
+            billet.save()
 
         messages.success(
             self.request,

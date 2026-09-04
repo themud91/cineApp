@@ -3,17 +3,17 @@ import os
 
 import requests
 
-# URL de base de l'API C#. En local, utilise localhost par défaut.
-# En production, définir la variable d'environnement TICKET_API_URL.
+# URL de base de l'API C#. En local, utilise localhost par defaut.
+# En production, definir la variable d'environnement TICKET_API_URL.
 BASE_URL = os.environ.get("TICKET_API_URL", "http://localhost:5056/api/tickets")
 
-# Clé partagée avec l'API : elle rejette toute requête qui ne la présente pas
-# dans l'en-tête X-Api-Key. Voir API_SHARED_KEY côté TicketAPI.
+# Cle partagee avec l'API : elle rejette toute requete qui ne la presente pas
+# dans l'en-tete X-Api-Key. Voir API_SHARED_KEY cote TicketAPI.
 API_KEY = os.environ.get("API_SHARED_KEY", "")
 HEADERS = {"X-Api-Key": API_KEY}
 
-# Délai maximal des appels à l'API. Sans lui, une API qui ne répond pas bloque
-# le worker gunicorn jusqu'à ce qu'il soit tué, et Django renvoie une erreur 500.
+# Delai maximal des appels a l'API. Sans lui, une API qui ne repond pas bloque
+# le worker gunicorn jusqu'a ce qu'il soit tue, et Django renvoie une erreur 500.
 TIMEOUT = 60
 
 

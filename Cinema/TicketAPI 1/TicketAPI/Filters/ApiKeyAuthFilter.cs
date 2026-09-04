@@ -9,11 +9,7 @@ namespace TicketAPI.Filters
 
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            // Render expose la variable sous le nom API_SHARED_KEY, le meme que
-            // lit api_client.py cote Django. Le trait de soulignement n'est PAS
-            // un separateur de configuration en .NET (seul le double l'est), donc
-            // configuration["ApiSharedKey"] ne la voyait jamais : la cle sortait
-            // vide et toute requete repondait 500. On accepte les deux noms.
+            // Les deux noms sont acceptes : API_SHARED_KEY cote Render, ApiSharedKey cote appsettings.
             var expectedKey = configuration["API_SHARED_KEY"] ?? configuration["ApiSharedKey"];
 
             if (string.IsNullOrEmpty(expectedKey))

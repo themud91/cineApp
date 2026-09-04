@@ -22,11 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# Render definit automatiquement RENDER=true sur tous ses services : on s'en
-# sert pour distinguer la production du developpement local. En local, la cle
-# par defaut suffit. En production, DJANGO_SECRET_KEY et DJANGO_DEBUG doivent
-# etre definies explicitement, sinon le demarrage plante au lieu de se
-# degrader silencieusement avec la cle de developpement (publiee sur GitHub).
+# Render definit RENDER=true : en production, SECRET_KEY et DEBUG sont exigees explicitement.
 IS_RENDER = os.environ.get("RENDER") == "true"
 _secret_key = os.environ.get("DJANGO_SECRET_KEY")
 _debug_raw = os.environ.get("DJANGO_DEBUG")
@@ -43,6 +39,16 @@ else:
     DEBUG = (_debug_raw or "True") == "True"
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
+
+# Render termine le TLS au niveau du proxy : le conteneur ne recoit que du
+# HTTP en clair. Sans ce header, request.is_secure() renvoie toujours False.
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+# Django 4+ exige un schema explicite pour les origines de confiance CSRF,
+# sinon les POST legitimes (login, inscription, achat) echouent avec 403.
+CSRF_TRUSTED_ORIGINS = [
+    f"https://{host}" for host in ALLOWED_HOSTS if host not in ("localhost", "127.0.0.1")
+]
 
 
 # Application definition

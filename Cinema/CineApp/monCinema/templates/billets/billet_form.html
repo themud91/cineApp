@@ -22,8 +22,7 @@
             <form method="POST">
                 {% csrf_token %}
                 {{ form.as_p }}
-                {# La confirmation part vers l'adresse du compte. Pas de champ
-                   libre ici : il transformait la page en relais de courriel ouvert. #}
+                {# La confirmation part vers l'adresse du compte, pas vers un champ libre. #}
                 <p>
                     <strong>Courriel de confirmation :</strong><br>
                     {% if request.user.email %}
@@ -33,7 +32,7 @@
                     {% endif %}
                 </p>
                 <button type="submit" class="btn btn-success">Acheter</button>
-                <a href="{% url 'representation_list' %}" class="btn btn-secondary">Annuler</a>
+                <a href="{% url 'accueil' %}" class="btn btn-secondary">Annuler</a>
             </form>
         </div>
     </div>

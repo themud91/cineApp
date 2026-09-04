@@ -3,9 +3,7 @@ using System.Text.Json;
 
 namespace TicketAPI.Middlewares {
 
-    // Dernier filet du pipeline : sans lui, une exception non geree ressort en
-    // 500 vide de Kestrel, sans corps ni trace. C'est exactement ce qui a rendu
-    // le bug de la cle partagee si couteux a diagnostiquer.
+    // Dernier filet du pipeline : journalise toute exception non geree et repond en JSON.
     internal sealed class GlobalExceptionMiddleware(
       RequestDelegate next,
       ILogger<GlobalExceptionMiddleware> logger,
