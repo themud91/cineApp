@@ -48,14 +48,6 @@ sessions                                          billets, courriel (Brevo)
 - Envoi automatique d'un courriel de confirmation après achat, via l'API .NET
 - Communication entre Django et l'API .NET par HTTP, authentifiée par clé partagée
 
-## Décisions de production
-
-- **Authentification entre services.** L'API .NET rejette toute requête sur `/api/tickets` sans l'en-tête `X-Api-Key` correcte.
-- **Échec explicite en production.** `SECRET_KEY` et `DEBUG` doivent être définies explicitement sur Render ; en leur absence, le démarrage plante au lieu de se rabattre silencieusement sur une valeur de développement.
-- **Contenu du courriel échappé**, pour éviter l'injection HTML depuis les champs saisis par l'utilisateur.
-- **Relais de courriel fermé.** Le destinataire de la confirmation vient toujours du compte connecté, jamais d'un champ de formulaire.
-- **Courriel découplé de l'achat.** Un échec d'envoi n'annule pas un billet déjà enregistré.
-
 ## Variables d'environnement
 
 Les deux services doivent partager la même valeur de `API_SHARED_KEY` : sans elle, l'API rejette tout achat de billet.
