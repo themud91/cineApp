@@ -73,7 +73,7 @@ urlpatterns = [
         views.FilmRepresentationsView.as_view(),
         name="film_representations",
     ),
-    # 'id' (pas 'pk') car BilletCreateView.dispatch() lit self.kwargs['id'] manuellement, sans passer par pk_url_kwarg. pas besoin.
+    # 'id' et pas 'pk' car dispatch() lit self.kwargs['id']
     path(
         "billets/<int:id>/add/", views.BilletCreateView.as_view(), name="billet_create"
     ),

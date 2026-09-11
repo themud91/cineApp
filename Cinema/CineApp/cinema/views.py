@@ -291,7 +291,7 @@ class BilletCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
             )
             return self.form_invalid(form)
 
-        # La confirmation part vers l'adresse du compte, jamais vers une adresse du POST.
+        # email du compte, pas du formulaire
         email = (self.request.user.email or "").strip()
         if not email:
             messages.error(
@@ -301,7 +301,7 @@ class BilletCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
             )
             return self.form_invalid(form)
 
-        # select_for_update() verrouille la representation : deux achats concurrents ne passent pas le controle en meme temps.
+        # verrou pour eviter deux achats en meme temps
         with transaction.atomic():
             rep = Representation.objects.select_for_update().get(
                 id=self.representation.id
@@ -341,9 +341,7 @@ class BilletCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
                 )
                 return self.form_invalid(form)
 
-            # enregistrer chez Django. Le message de succes vient apres le save :
-            # annoncer l'achat avant de l'enregistrer laisserait l'utilisateur avec
-            # une confirmation pour un billet qui n'existe pas.
+            # message de succes seulement apres le save
             billet = form.save(commit=False)
             billet.idRepresentation = self.representation
             billet.user = self.request.user
@@ -412,7 +410,7 @@ class HistoriqueView(LoginRequiredMixin, ListView):
 def apropos_View(request):
     context = {
         "today": datetime.date.today(),
-        # Lues a l'execution: elles restent exactes en local comme en production.
+        # valeurs lues a l'execution
         "python_version": platform.python_version(),
         "django_version": django.get_version(),
         "concepteurs": [

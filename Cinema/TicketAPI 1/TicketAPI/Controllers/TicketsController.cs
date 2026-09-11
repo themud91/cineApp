@@ -59,8 +59,7 @@ namespace TicketAPI.Controllers
       </ul>
   ";
 
-            // Le billet est deja enregistre : un courriel qui ne part pas ne doit
-            // pas annuler l'achat.
+            // si l'email echoue, l'achat reste valide
             try
             {
                 await emailService.SendAsync(

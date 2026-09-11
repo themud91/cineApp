@@ -22,7 +22,7 @@
             <form method="POST">
                 {% csrf_token %}
                 {{ form.as_p }}
-                {# La confirmation part vers l'adresse du compte, pas vers un champ libre. #}
+                {# email du compte #}
                 <p>
                     <strong>Courriel de confirmation :</strong><br>
                     {% if request.user.email %}

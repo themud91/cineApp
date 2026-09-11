@@ -6,8 +6,7 @@ namespace TicketAPI.Controllers {
     [ApiController]
     public class PingAPIController : ControllerBase {
 
-        // Marqueur de version : permet de verifier d'un seul curl que Render sert
-        // bien le dernier commit, et non une couche Docker restee en cache.
+        // version pour verifier le deploy sur Render
         private const string Version = "auth-fix-1";
 
         [HttpGet]

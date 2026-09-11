@@ -6,9 +6,7 @@ using TicketAPI.Models;
 using TicketAPI.Repositories;
 using TicketAPI.Services;
 
-// Logger provisoire actif des la premiere ligne. Sans lui, une exception levee
-// dans CreateBuilder serait avalee en silence : le catch appellerait Log.Fatal
-// sur un logger pas encore configure et le conteneur mourrait sans rien afficher.
+// logger de demarrage pour voir les erreurs au lancement
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
     .WriteTo.Console()
@@ -24,26 +22,25 @@ try {
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 
-    //Enregistrement de la base de donnees JSON en tant que service singleton pour pouvoir l'injecter dans les repositories.
+    // base JSON en singleton
     builder.Services.AddSingleton(sp => {
         var env = sp.GetRequiredService<IWebHostEnvironment>();
         return new JsonFileDatabase<Billet>(env, "data.json");
     });
 
-    //Enregistrement du service de courriel avec la configuration de appSettings.json.
+    // service email (config dans appsettings.json)
     builder.Services.Configure<BrevoOptions>(
         builder.Configuration.GetSection("Brevo"));
     builder.Services.AddHttpClient<IEmailService, EmailService>(client => {
         client.BaseAddress = new Uri("https://api.brevo.com/");
     });
-    // Service de repository pour gerer les billets, enregistre en tant que service scoped pour avoir une instance par requete HTTP.
+    // repository en scoped (une instance par requete)
     builder.Services.AddScoped<ITicketRepository, TicketRepository>();
     builder.Services.AddScoped<ApiKeyAuthFilter>();
 
     var app = builder.Build();
 
-    // Premiere ligne du pipeline : toute exception qui remonte jusqu'ici est
-    // journalisee et renvoyee en JSON au lieu d'un 500 vide.
+    // middleware d'exceptions en premier
     app.UseMiddleware<GlobalExceptionMiddleware>();
 
     if (app.Environment.IsDevelopment()) {
@@ -51,8 +48,7 @@ try {
         app.UseSwaggerUI();
     }
 
-    // En production (Render) le TLS se termine au proxy et le conteneur recoit
-    // du HTTP simple : la redirection n'a pas de port HTTPS a viser.
+    // pas de redirection HTTPS en prod, Render le gere
     if (app.Environment.IsDevelopment()) {
         app.UseHttpsRedirection();
     }
@@ -67,7 +63,7 @@ try {
     app.Run();
 } catch (Exception ex) {
     Log.Fatal(ex, "Application terminated unexpectedly");
-    // Sans ceci le processus sort avec le code 0 et l'echec passe inapercu.
+    // sinon le process sort avec code 0
     Environment.ExitCode = 1;
 } finally {
     Log.CloseAndFlush();

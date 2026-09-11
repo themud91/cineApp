@@ -5,7 +5,7 @@ using TicketAPI.Models;
 
 namespace TicketAPI.Services {
 
-    // Envoi via l'API HTTP de Brevo (port 443) : Render bloque le port SMTP sortant.
+    // API HTTP de Brevo car Render bloque le SMTP
     public sealed class EmailService(
         HttpClient httpClient,
         IOptions<BrevoOptions> options,
@@ -19,7 +19,7 @@ namespace TicketAPI.Services {
             string htmlBody,
             CancellationToken cancellationToken = default) {
 
-            // Sans cle configuree on n'appelle pas Brevo, et le log evite que l'absence d'envoi passe inapercue.
+            // pas de cle = pas d'envoi, juste un warning
             if (string.IsNullOrWhiteSpace(_options.ApiKey)) {
                 logger.LogWarning(
                     "Brevo:ApiKey absente de la configuration : aucun courriel envoye a {To}. "
@@ -42,9 +42,7 @@ namespace TicketAPI.Services {
             using var response = await httpClient.SendAsync(request, cancellationToken);
 
             if (!response.IsSuccessStatusCode) {
-                // Le corps de la reponse porte le motif exact du refus de Brevo
-                // (cle invalide, expediteur non verifie, quota). Sans lui il ne
-                // reste qu'un code HTTP nu dans les logs.
+                // log du body pour voir l'erreur de Brevo
                 var body = await response.Content.ReadAsStringAsync(cancellationToken);
                 logger.LogError(
                     "Brevo a refuse le courriel pour {To} : {StatusCode} {Body}",

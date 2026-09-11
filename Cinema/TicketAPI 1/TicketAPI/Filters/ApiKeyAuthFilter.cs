@@ -9,14 +9,12 @@ namespace TicketAPI.Filters
 
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            // Les deux noms sont acceptes : API_SHARED_KEY cote Render, ApiSharedKey cote appsettings.
+            // API_SHARED_KEY (Render) ou ApiSharedKey (appsettings)
             var expectedKey = configuration["API_SHARED_KEY"] ?? configuration["ApiSharedKey"];
 
             if (string.IsNullOrEmpty(expectedKey))
             {
-                // Sans ce log la panne est muette : aucune exception n'est levee,
-                // et MVC transforme le StatusCodeResult en ProblemDetails
-                // generique qui ne dit rien de la cause.
+                // log sinon on sait pas pourquoi ca echoue
                 logger.LogCritical(
                     "Cle partagee absente de la configuration. Definir API_SHARED_KEY sur le "
                     + "service pour que {Path} reponde.",

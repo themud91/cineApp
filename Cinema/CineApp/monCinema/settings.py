@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# Render definit RENDER=true : en production, SECRET_KEY et DEBUG sont exigees explicitement.
+# en prod (Render) SECRET_KEY et DEBUG obligatoires
 IS_RENDER = os.environ.get("RENDER") == "true"
 _secret_key = os.environ.get("DJANGO_SECRET_KEY")
 _debug_raw = os.environ.get("DJANGO_DEBUG")
@@ -40,12 +40,10 @@ else:
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 
-# Render termine le TLS au niveau du proxy : le conteneur ne recoit que du
-# HTTP en clair. Sans ce header, request.is_secure() renvoie toujours False.
+# Render gere le HTTPS au proxy
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
-# Django 4+ exige un schema explicite pour les origines de confiance CSRF,
-# sinon les POST legitimes (login, inscription, achat) echouent avec 403.
+# origines CSRF avec https:// sinon erreur 403
 CSRF_TRUSTED_ORIGINS = [
     f"https://{host}" for host in ALLOWED_HOSTS if host not in ("localhost", "127.0.0.1")
 ]
@@ -141,11 +139,10 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "monCinema" / "static"]
-# Destination de collectstatic en production. Inutilise en developpement.
+# dossier collectstatic (prod)
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-# WhiteNoise: compresse les fichiers statiques et ajoute un hash au nom pour
-# permettre une mise en cache longue duree. Inutilise en developpement.
+# WhiteNoise: compression + cache des statiques
 STORAGES = {
     "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
     "staticfiles": {

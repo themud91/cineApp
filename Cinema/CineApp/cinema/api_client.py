@@ -1,19 +1,16 @@
-# Ce fichier contient des fonctions pour interagir avec l'API C# de gestion des billets.
+# Fonctions pour appeler l'API C# des billets
 import os
 
 import requests
 
-# URL de base de l'API C#. En local, utilise localhost par defaut.
-# En production, definir la variable d'environnement TICKET_API_URL.
+# URL de l'API (localhost par defaut, TICKET_API_URL en prod)
 BASE_URL = os.environ.get("TICKET_API_URL", "http://localhost:5056/api/tickets")
 
-# Cle partagee avec l'API : elle rejette toute requete qui ne la presente pas
-# dans l'en-tete X-Api-Key. Voir API_SHARED_KEY cote TicketAPI.
+# cle partagee avec l'API (header X-Api-Key)
 API_KEY = os.environ.get("API_SHARED_KEY", "")
 HEADERS = {"X-Api-Key": API_KEY}
 
-# Delai maximal des appels a l'API. Sans lui, une API qui ne repond pas bloque
-# le worker gunicorn jusqu'a ce qu'il soit tue, et Django renvoie une erreur 500.
+# timeout pour ne pas bloquer gunicorn si l'API repond pas
 TIMEOUT = 60
 
 
